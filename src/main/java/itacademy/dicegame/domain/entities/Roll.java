@@ -22,13 +22,14 @@ public class Roll {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    private byte winValue = 7;
+    private final byte winValue = 7;
 
     public Roll(User user, byte dice1, byte dice2) {
         this.user = user;
         this.dice1 = dice1;
         this.dice2 = dice2;
         this.win = (this.dice1 + this.dice2) == winValue;
+        user.getRolls().add(this);
     }
 
     public static byte d6Roll() {

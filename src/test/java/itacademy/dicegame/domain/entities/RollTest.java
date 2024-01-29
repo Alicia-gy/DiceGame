@@ -1,16 +1,11 @@
 package itacademy.dicegame.domain.entities;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.util.Assert;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RollTest {
-
-    //TODO fix errors
-
 
 
     @Test

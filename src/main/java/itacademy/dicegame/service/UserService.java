@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface UserService {
 
-    public UserDTO save(UserDTO userDTO);
+    public void save(UserDTO userDTO);
 
-    public void deleteById(int id);
+    public void deleteById(Long id);
 
-    public Optional<UserDTO> findById(int id);
+    public UserDTO findById(Long id);
 
     public List<UserDTO> findAll();
     

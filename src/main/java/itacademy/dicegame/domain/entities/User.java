@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,12 +25,13 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime creationDate;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Roll> rolls;
+    private ArrayList<Roll> rolls;
 
 
     public User(String name){
         this.name = name;
         this.creationDate = LocalDateTime.now();
+        this.rolls = new ArrayList<Roll>();
     }
 
     public float calcAverage() {
@@ -40,9 +42,7 @@ public class User {
         }
 
         for(Roll roll : rolls) {
-            if(roll.isWin()) {
-                wins++;
-            }
+            if(roll.isWin()) wins++;
         }
 
         return (float) (wins / rolls.size());

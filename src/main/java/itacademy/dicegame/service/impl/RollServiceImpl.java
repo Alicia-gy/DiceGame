@@ -1,12 +1,13 @@
 package itacademy.dicegame.service.impl;
 
 import itacademy.dicegame.domain.dtos.RollDTO;
+import itacademy.dicegame.domain.entities.Roll;
 import itacademy.dicegame.repository.RollRepository;
 import itacademy.dicegame.service.RollService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RollServiceImpl implements RollService {
@@ -18,22 +19,35 @@ public class RollServiceImpl implements RollService {
     }
 
     @Override
-    public RollDTO save(RollDTO rollDTO) {
+    @Transactional
+    public void save(RollDTO rollDTO) {
+        Roll roll = toEntity(rollDTO);
+        rollRepository.save(roll);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RollDTO findById(Long id) {
         return null;
     }
 
     @Override
-    public void deleteById(int id) {
-
-    }
-
-    @Override
-    public Optional<RollDTO> findById(int id) {
-        return Optional.empty();
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public List<RollDTO> findAll() {
         return null;
+    }
+
+    static RollDTO toDto(Roll roll){
+        return new RollDTO(roll);
+    }
+
+    static Roll toEntity(RollDTO rollDto){
+        return new Roll(rollDto.getUser(),
+                rollDto.getDice1(), rollDto.getDice2());
     }
 }

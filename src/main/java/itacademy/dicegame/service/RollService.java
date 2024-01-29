@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface RollService {
 
-    public RollDTO save(RollDTO rollDTO);
+    public void save(RollDTO rollDTO);
 
-    public void deleteById(int id);
+    public void deleteById(Long id);
 
-    public Optional<RollDTO> findById(int id);
+    public RollDTO findById(Long id);
 
     public List<RollDTO> findAll();
 
