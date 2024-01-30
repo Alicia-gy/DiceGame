@@ -1,5 +1,6 @@
 package itacademy.dicegame.domain.entities;
 
+import itacademy.dicegame.utilities.DiceRoller;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -10,7 +11,7 @@ class RollTest {
 
     @Test
     void TestD6Rolls_Returns1to6Values() {
-        byte roll = Roll.d6Roll();
+        byte roll = DiceRoller.d6Roll();
         assertTrue(roll >= 1 && roll <= 6);
     }
 

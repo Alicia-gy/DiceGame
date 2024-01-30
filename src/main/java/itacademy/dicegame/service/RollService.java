@@ -1,9 +1,9 @@
 package itacademy.dicegame.service;
 
 import itacademy.dicegame.domain.dtos.RollDTO;
+import itacademy.dicegame.domain.dtos.UserDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RollService {
 
@@ -11,8 +11,8 @@ public interface RollService {
 
     public void deleteById(Long id);
 
-    public RollDTO findById(Long id);
+    public void deleteByUser(UserDTO Userdto);
 
-    public List<RollDTO> findAll();
+    public List<RollDTO> findByUser(UserDTO userDTO);
 
 }

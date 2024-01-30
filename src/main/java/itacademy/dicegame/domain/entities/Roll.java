@@ -20,7 +20,7 @@ public class Roll {
     @Column(name = "win")
     private boolean win;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user")
     private User user;
     private final byte winValue = 7;
 
@@ -31,12 +31,6 @@ public class Roll {
         this.win = (this.dice1 + this.dice2) == winValue;
         user.getRolls().add(this);
     }
-
-    public static byte d6Roll() {
-        return (byte) (Math.random() * 6 + 1);
-    }
-
-
 
 
 }

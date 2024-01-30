@@ -9,6 +9,8 @@ public interface UserService {
 
     public void save(UserDTO userDTO);
 
+    public void update(UserDTO userDTO, Long id);
+
     public void deleteById(Long id);
 
     public UserDTO findById(Long id);
