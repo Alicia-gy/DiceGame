@@ -42,7 +42,7 @@ class UserServiceImplTest {
     @Test
     void TestFindById_ReturnsCorrectDto() {
         User user = new User("test");
-        when(mockUserRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
+        when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
 
         UserDTO dto = userService.findById(1L);
 
