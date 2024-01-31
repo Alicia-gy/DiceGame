@@ -5,6 +5,7 @@ import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.Roll;
 import itacademy.dicegame.repository.RollRepository;
 import itacademy.dicegame.service.RollService;
+import itacademy.dicegame.utilities.DiceRoller;
 import itacademy.dicegame.utilities.DtoConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +24,15 @@ public class RollServiceImpl implements RollService {
 
     @Override
     @Transactional
-    public void save(RollDTO rollDTO) {
-        Roll roll = DtoConverter.rollToEntity(rollDTO);
+    public RollDTO create2D6Roll(UserDTO userDTO) {
+        Roll roll = new Roll(
+                DtoConverter.userToEntity(userDTO),
+                DiceRoller.d6Roll(),
+                DiceRoller.d6Roll());
+
         rollRepository.save(roll);
+
+        return DtoConverter.rollToDto(roll);
     }
 
     @Override

@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(UserDTO userDTO, Long id){
-
         Optional<User> user = userRepository.findById(id);
+
         if(user.isEmpty()) {
             throw new EntityNotFoundException();
         }

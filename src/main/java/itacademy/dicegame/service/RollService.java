@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface RollService {
 
-    public void save(RollDTO rollDTO);
+    public RollDTO create2D6Roll(UserDTO userDTO);
 
     public void deleteById(Long id);
 
-    public void deleteByUser(UserDTO Userdto);
+    public void deleteByUser(UserDTO userDTO);
 
     public List<RollDTO> findByUser(UserDTO userDTO);
 
