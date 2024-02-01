@@ -2,6 +2,7 @@ package itacademy.dicegame.controller;
 
 import itacademy.dicegame.domain.dtos.RollDTO;
 import itacademy.dicegame.domain.dtos.UserDTO;
+import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -38,15 +39,15 @@ public class DiceGameController {
 
     @PostMapping("/players/{id}/games")
     public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") Long id) {
-        UserDTO userDTO = userService.findById(id);
+        User user = userService.findByIdReturnEntity(id);
 
-        RollDTO rollDTO = rollService.create2D6Roll(userDTO);
+        RollDTO rollDTO = rollService.create2D6Roll(user);
         return new ResponseEntity<>(rollDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/players/{id}/games")
     public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") Long id) {
-        UserDTO userDTO = userService.findById(id);
+        UserDTO userDTO = userService.findByIdReturnDTO(id);
 
         rollService.deleteByUser(userDTO);
         return new ResponseEntity<>("Rolls deleted", HttpStatus.OK);
@@ -58,19 +59,19 @@ public class DiceGameController {
 
         String convertedList = userDTOS.stream()
                 .map(UserDTO::toString)
-                .collect(Collectors.joining("/n"));
+                .collect(Collectors.joining("\n"));
 
         return new ResponseEntity<>(convertedList, HttpStatus.OK);
     }
 
     @GetMapping("/players/{id}/games")
     public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") Long id) {
-        UserDTO userDTO = userService.findById(id);
+        UserDTO userDTO = userService.findByIdReturnDTO(id);
         List<RollDTO> rollDTOS = rollService.findByUser(userDTO);
 
         String convertedList = rollDTOS.stream()
                 .map(RollDTO::toString)
-                .collect(Collectors.joining("/n"));
+                .collect(Collectors.joining("\n"));
 
         return new ResponseEntity<>(convertedList, HttpStatus.OK);
     }

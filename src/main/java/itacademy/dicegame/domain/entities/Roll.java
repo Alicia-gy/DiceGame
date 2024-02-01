@@ -13,15 +13,21 @@ public class Roll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "dice1")
     private byte dice1;
+
     @Column(name = "dice2")
     private byte dice2;
+
     @Column(name = "win")
     private boolean win;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @Transient
     private final byte winValue = 7;
 
     public Roll(User user, byte dice1, byte dice2) {

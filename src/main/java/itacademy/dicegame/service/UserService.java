@@ -1,6 +1,7 @@
 package itacademy.dicegame.service;
 
 import itacademy.dicegame.domain.dtos.UserDTO;
+import itacademy.dicegame.domain.entities.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,9 @@ public interface UserService {
 
     public void deleteById(Long id);
 
-    public UserDTO findById(Long id);
+    public UserDTO findByIdReturnDTO(Long id);
+
+    public User findByIdReturnEntity(Long id);
 
     public List<UserDTO> findAll();
     

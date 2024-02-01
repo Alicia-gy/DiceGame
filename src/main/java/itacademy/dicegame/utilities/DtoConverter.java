@@ -19,8 +19,4 @@ public class DtoConverter {
         return new RollDTO(roll);
     }
 
-    public static Roll rollToEntity(RollDTO rollDto){
-        return new Roll(rollDto.getUser(),
-                rollDto.getDice1(), rollDto.getDice2());
-    }
 }

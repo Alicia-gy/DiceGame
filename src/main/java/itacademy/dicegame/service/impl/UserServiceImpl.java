@@ -54,12 +54,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDTO findById(Long id) {
+    public UserDTO findByIdReturnDTO(Long id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()) {
             throw new EntityNotFoundException();
         }
         return DtoConverter.userToDto(user.get());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User findByIdReturnEntity(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        return user.get();
     }
 
     @Override

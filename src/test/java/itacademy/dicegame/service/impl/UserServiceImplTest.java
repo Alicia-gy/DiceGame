@@ -44,7 +44,7 @@ class UserServiceImplTest {
         User user = new User("test");
         when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        UserDTO dto = userService.findById(1L);
+        UserDTO dto = userService.findByIdReturnDTO(1L);
 
         assertEquals(dto.getName(), user.getName());
     }

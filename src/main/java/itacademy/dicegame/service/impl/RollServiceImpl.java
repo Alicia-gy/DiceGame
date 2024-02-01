@@ -3,6 +3,7 @@ package itacademy.dicegame.service.impl;
 import itacademy.dicegame.domain.dtos.RollDTO;
 import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.Roll;
+import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.repository.RollRepository;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.utilities.DiceRoller;
@@ -24,9 +25,8 @@ public class RollServiceImpl implements RollService {
 
     @Override
     @Transactional
-    public RollDTO create2D6Roll(UserDTO userDTO) {
-        Roll roll = new Roll(
-                DtoConverter.userToEntity(userDTO),
+    public RollDTO create2D6Roll(User user) {
+        Roll roll = new Roll(user,
                 DiceRoller.d6Roll(),
                 DiceRoller.d6Roll());
 
