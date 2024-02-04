@@ -21,4 +21,13 @@ class RollTest {
         Roll roll = new Roll(mockUser, (byte) 3, (byte) 4);
         assertTrue(roll.isWin());
     }
+
+    @Test
+    void TestRollIsCreatedOk() {
+        User user = new User("TestUser");
+        Roll roll = new Roll(user, DiceRoller.d6Roll(), DiceRoller.d6Roll());
+
+        assertFalse(user.getRolls().isEmpty());
+        assertEquals(roll.getUser(), user);
+    }
 }

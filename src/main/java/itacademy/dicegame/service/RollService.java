@@ -10,10 +10,8 @@ public interface RollService {
 
     public RollDTO create2D6Roll(User user);
 
-    public void deleteById(Long id);
+    public void deleteByUser(User user);
 
-    public void deleteByUser(UserDTO userDTO);
-
-    public List<RollDTO> findByUser(UserDTO userDTO);
+    public List<RollDTO> findByUser(User user);
 
 }

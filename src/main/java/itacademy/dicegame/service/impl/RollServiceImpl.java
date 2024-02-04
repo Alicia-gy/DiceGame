@@ -1,7 +1,6 @@
 package itacademy.dicegame.service.impl;
 
 import itacademy.dicegame.domain.dtos.RollDTO;
-import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.Roll;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.repository.RollRepository;
@@ -37,20 +36,14 @@ public class RollServiceImpl implements RollService {
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
-        rollRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteByUser(UserDTO userDTO){
-        rollRepository.deleteByUser(DtoConverter.userToEntity(userDTO));
+    public void deleteByUser(User user){
+        rollRepository.deleteByUser(user);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<RollDTO> findByUser(UserDTO userDTO){
-        List<Roll> rolls = rollRepository.findByUser(DtoConverter.userToEntity(userDTO));
+    public List<RollDTO> findByUser(User user){
+        List<Roll> rolls = rollRepository.findByUser(user);
         List<RollDTO> dtos = rolls.stream().map(DtoConverter::rollToDto).collect(Collectors.toList());
         return dtos;
     }

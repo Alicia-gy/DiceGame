@@ -47,9 +47,9 @@ public class DiceGameController {
 
     @DeleteMapping("/players/{id}/games")
     public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") Long id) {
-        UserDTO userDTO = userService.findByIdReturnDTO(id);
+        User user = userService.findByIdReturnEntity(id);
 
-        rollService.deleteByUser(userDTO);
+        rollService.deleteByUser(user);
         return new ResponseEntity<>("Rolls deleted", HttpStatus.OK);
     }
 
@@ -66,8 +66,8 @@ public class DiceGameController {
 
     @GetMapping("/players/{id}/games")
     public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") Long id) {
-        UserDTO userDTO = userService.findByIdReturnDTO(id);
-        List<RollDTO> rollDTOS = rollService.findByUser(userDTO);
+        User user = userService.findByIdReturnEntity(id);
+        List<RollDTO> rollDTOS = rollService.findByUser(user);
 
         String convertedList = rollDTOS.stream()
                 .map(RollDTO::toString)

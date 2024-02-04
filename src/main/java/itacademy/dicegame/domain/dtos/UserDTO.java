@@ -18,6 +18,11 @@ public class UserDTO {
         this.average = user.calcAverage();
     }
 
+    @Override
+    public String toString() {
+        return name + " Average: " + average + " %";
+    }
+
 
 
 }

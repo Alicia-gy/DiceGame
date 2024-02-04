@@ -84,8 +84,7 @@ public class UserServiceImpl implements UserService {
         if(userDTO.getName().isEmpty() || userDTO.getName().isBlank()){
             userDTO.setName("Anonymous");
         } else if(Optional.ofNullable(
-                        userRepository.findByName(userDTO.getName()))
-                .isPresent()) {
+                userRepository.findByName(userDTO.getName())).isPresent()) {
             throw new IllegalArgumentException("Name is already taken");
         }
     }
