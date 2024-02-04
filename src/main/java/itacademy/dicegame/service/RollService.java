@@ -1,7 +1,6 @@
 package itacademy.dicegame.service;
 
 import itacademy.dicegame.domain.dtos.RollDTO;
-import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.User;
 
 import java.util.List;
