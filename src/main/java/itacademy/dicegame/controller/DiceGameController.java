@@ -5,6 +5,7 @@ import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class DiceGameController {
 
     private final UserService userService;
     private final RollService rollService;
-
-    public DiceGameController(UserService userService, RollService rollService){
-        this.userService = userService;
-        this.rollService = rollService;
-    }
 
     @PostMapping("/players")
     public ResponseEntity<?> createUser (@RequestBody UserDTO userDTO) {

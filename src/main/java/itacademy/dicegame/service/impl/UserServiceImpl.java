@@ -6,6 +6,10 @@ import itacademy.dicegame.repository.UserRepository;
 import itacademy.dicegame.service.UserService;
 import itacademy.dicegame.utilities.DtoConverter;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +18,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Override
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                User user = userRepository.findByName(username);
+                if (user == null) {
+                    throw new EntityNotFoundException();
+                }
+                return user;
+            }
+        };
     }
 
     @Override
@@ -47,9 +62,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
+    public User findByName(String name) {
+        User user = userRepository.findByName(name);
+        if(user == null) {
+            throw new EntityNotFoundException();
+        }
+        return user;
     }
 
     @Override

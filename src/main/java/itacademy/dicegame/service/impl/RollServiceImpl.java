@@ -7,6 +7,7 @@ import itacademy.dicegame.repository.RollRepository;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.utilities.DiceRoller;
 import itacademy.dicegame.utilities.DtoConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class RollServiceImpl implements RollService {
 
     private final RollRepository rollRepository;
-
-    public RollServiceImpl(RollRepository rollRepository) {
-        this.rollRepository = rollRepository;
-    }
 
     @Override
     @Transactional

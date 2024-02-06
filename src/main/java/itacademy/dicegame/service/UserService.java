@@ -2,22 +2,26 @@ package itacademy.dicegame.service;
 
 import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    public void save(UserDTO userDTO);
+    UserDetailsService userDetailsService();
 
-    public void update(UserDTO userDTO, Long id);
+    void save(UserDTO userDTO);
 
-    public void deleteById(Long id);
+    void update(UserDTO userDTO, Long id);
 
-    public UserDTO findByIdReturnDTO(Long id);
+    UserDetails findByName(String name);
 
-    public User findByIdReturnEntity(Long id);
+    UserDTO findByIdReturnDTO(Long id);
 
-    public List<UserDTO> findAll();
+    User findByIdReturnEntity(Long id);
+
+    List<UserDTO> findAll();
     
 }
