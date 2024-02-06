@@ -6,17 +6,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
     UserDetailsService userDetailsService();
 
-    void save(UserDTO userDTO);
+    //void save(UserDTO userDTO);
 
     void update(UserDTO userDTO, Long id);
 
-    UserDetails findByName(String name);
+    UserDetails findByUsername(String username);
+
+    //User findByPublicName(String publicName);
 
     UserDTO findByIdReturnDTO(Long id);
 

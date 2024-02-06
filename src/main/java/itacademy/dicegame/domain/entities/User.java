@@ -26,14 +26,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
     @Column(name = "password")
     private String password;
 
     @Column(name = "date", updatable = false, nullable = false)
     private LocalDateTime creationDate;
+
+    @Column(name = "public_name", nullable = false)
+    private String publicName;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Roll> rolls;
@@ -42,10 +45,12 @@ public class User implements UserDetails {
     private Role role;
 
 
-    public User(String name) {
-        this.name = name;
+    public User(String username, String password, String publicName) {
+        this.username = username;
+        this.password = password;
+        this.publicName = publicName;
         this.creationDate = LocalDateTime.now();
-        this.rolls = new ArrayList<Roll>();
+        this.rolls = new ArrayList<>();
     }
 
     public float calcAverage() {
@@ -66,11 +71,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return name;
     }
 
     @Override

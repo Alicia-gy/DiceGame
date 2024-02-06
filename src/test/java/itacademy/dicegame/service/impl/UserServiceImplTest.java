@@ -30,11 +30,11 @@ class UserServiceImplTest {
     @Test
     void TestSave_ChangesBlankNameToAnonymous() {
         UserDTO dto = new UserDTO(mock(User.class));
-        dto.setName(" ");
+        dto.setPublicName(" ");
 
         userService.save(dto);
 
-        assertEquals("Anonymous", dto.getName());
+        assertEquals("Anonymous", dto.getPublicName());
 
     }
 
@@ -42,12 +42,12 @@ class UserServiceImplTest {
 
     @Test
     void TestFindById_ReturnsCorrectDto() {
-        User user = new User("test");
+        User user = new User("testuser", "testpassword", "testname");
         when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
 
         UserDTO dto = userService.findByIdReturnDTO(1L);
 
-        assertEquals(dto.getName(), user.getName());
+        assertEquals(dto.getPublicName(), user.getPublicName());
     }
 
 }

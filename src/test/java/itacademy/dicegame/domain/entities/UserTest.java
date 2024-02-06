@@ -29,7 +29,7 @@ class UserTest {
 
         UserDTO dto = new UserDTO(user);
 
-        assertEquals(user.getName(), dto.getName());
+        assertEquals(user.getName(), dto.getPublicName());
         assertEquals(user.calcAverage(), dto.getAverage());
     }
 }

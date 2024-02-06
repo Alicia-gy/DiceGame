@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                User user = userRepository.findByName(username);
+                User user = userRepository.findByUsername(username);
                 if (user == null) {
                     throw new EntityNotFoundException();
                 }
@@ -37,14 +37,14 @@ public class UserServiceImpl implements UserService {
         };
     }
 
-    @Override
+    /*@Override
     @Transactional
     public void save(UserDTO userDTO) {
         checkNameConditions(userDTO, userRepository);
 
         User user = DtoConverter.userToEntity(userDTO);
         userRepository.save(user);
-    }
+    }*/
 
     @Override
     @Transactional
@@ -57,13 +57,13 @@ public class UserServiceImpl implements UserService {
 
         checkNameConditions(userDTO, userRepository);
 
-        user.get().setName(userDTO.getName());
+        user.get().setPublicName(userDTO.getPublicName());
         userRepository.save(user.get());
     }
 
     @Override
-    public User findByName(String name) {
-        User user = userRepository.findByName(name);
+    public User findByUsername(String username) {
+        User user = userRepository.findByUsername(username);
         if(user == null) {
             throw new EntityNotFoundException();
         }
@@ -99,11 +99,11 @@ public class UserServiceImpl implements UserService {
     }
 
     private static void checkNameConditions(UserDTO userDTO, UserRepository userRepository) {
-        if(userDTO.getName().isEmpty() || userDTO.getName().isBlank()){
-            userDTO.setName("Anonymous");
+        if(userDTO.getPublicName().isEmpty() || userDTO.getPublicName().isBlank()){
+            userDTO.setPublicName("Anonymous");
         } else if(Optional.ofNullable(
-                userRepository.findByName(userDTO.getName())).isPresent()) {
-            throw new IllegalArgumentException("Name is already taken");
+                userRepository.findByPublicName(userDTO.getPublicName())).isPresent()) {
+            throw new IllegalArgumentException("Public Name is already taken");
         }
     }
 

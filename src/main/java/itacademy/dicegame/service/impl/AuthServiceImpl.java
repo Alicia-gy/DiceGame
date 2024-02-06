@@ -9,7 +9,6 @@ import itacademy.dicegame.security.data.RegisterRequest;
 import itacademy.dicegame.service.AuthService;
 import itacademy.dicegame.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,8 +29,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse register(RegisterRequest request) {
         var user = User.builder()
-                .name(request.getName())
+                .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .publicName(request.getPublicName())
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
@@ -44,11 +44,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getName(),
+                        request.getUsername(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByName(request.getName()); //TODO add orElseThrow
+        var user = userRepository.findByUsername(request.getUsername()); //TODO add orElseThrow
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwtToken).build();
