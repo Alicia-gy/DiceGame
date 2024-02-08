@@ -2,6 +2,8 @@ package itacademy.dicegame.service.impl;
 
 import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.User;
+import itacademy.dicegame.exceptions.UserNotFoundException;
+import itacademy.dicegame.exceptions.UsernameAlreadyExistsException;
 import itacademy.dicegame.repository.UserRepository;
 import itacademy.dicegame.service.UserService;
 import itacademy.dicegame.utilities.DtoConverter;
@@ -23,19 +25,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @Override
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                User user = userRepository.findByUsername(username);
-                if (user == null) {
-                    throw new EntityNotFoundException();
-                }
-                return user;
-            }
-        };
-    }
 
     /*@Override
     @Transactional
@@ -63,31 +52,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if(user == null) {
-            throw new EntityNotFoundException();
-        }
-        return user;
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDTO findByIdReturnDTO(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
+        Optional<User> user = Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found: invalid id")));
         return DtoConverter.userToDto(user.get());
     }
 
     @Override
     @Transactional(readOnly = true)
     public User findByIdReturnEntity(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-        return user.get();
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found: invalid id"));
     }
 
     @Override
@@ -103,7 +84,7 @@ public class UserServiceImpl implements UserService {
             userDTO.setPublicName("Anonymous");
         } else if(Optional.ofNullable(
                 userRepository.findByPublicName(userDTO.getPublicName())).isPresent()) {
-            throw new IllegalArgumentException("Public Name is already taken");
+            throw new UsernameAlreadyExistsException("Public Name is already taken");
         }
     }
 

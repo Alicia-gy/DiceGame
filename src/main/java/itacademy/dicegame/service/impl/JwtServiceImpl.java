@@ -30,6 +30,7 @@ public class JwtServiceImpl implements JwtService {
         return claimsResolver.apply(claims);
     }
 
+    @Override
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
@@ -44,6 +45,7 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
+    @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);

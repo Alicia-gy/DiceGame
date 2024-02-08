@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDetailsService userDetailsService();
+    //UserDetailsService userDetailsService();
 
     //void save(UserDTO userDTO);
 

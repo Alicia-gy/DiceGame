@@ -2,6 +2,7 @@ package itacademy.dicegame.service.impl;
 
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.enums.Role;
+import itacademy.dicegame.exceptions.UserNotFoundException;
 import itacademy.dicegame.repository.UserRepository;
 import itacademy.dicegame.security.data.AuthResponse;
 import itacademy.dicegame.security.data.LoginRequest;
@@ -48,7 +49,8 @@ public class AuthServiceImpl implements AuthService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername()); //TODO add orElseThrow
+        var user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwtToken).build();
