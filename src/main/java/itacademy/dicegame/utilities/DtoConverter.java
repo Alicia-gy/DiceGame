@@ -11,10 +11,6 @@ public class DtoConverter {
         return new UserDTO(user);
     }
 
-    /*public static User userToEntity(UserDTO userDTO){
-        return new User(userDTO.getName());
-    }*/
-
     public static RollDTO rollToDto(Roll roll){
         return new RollDTO(roll);
     }

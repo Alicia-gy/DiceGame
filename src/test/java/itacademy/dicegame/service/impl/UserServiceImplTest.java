@@ -2,6 +2,7 @@ package itacademy.dicegame.service.impl;
 
 import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.User;
+import itacademy.dicegame.enums.Role;
 import itacademy.dicegame.repository.UserRepository;
 import itacademy.dicegame.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,20 +22,24 @@ class UserServiceImplTest {
     @Mock
     private UserRepository mockUserRepository;
 
+    private User user;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
         userService = new UserServiceImpl(mockUserRepository);
+        user = new User("test1", "test2", "test3", Role.USER);
     }
 
     @Test
-    void TestSave_ChangesBlankNameToAnonymous() {
-        UserDTO dto = new UserDTO(mock(User.class));
+    void TestUpdate_ChangesBlankNameToAnonymous() {
+        UserDTO dto = new UserDTO(user);
         dto.setPublicName(" ");
+        when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        userService.save(dto);
+        userService.update(dto.getPublicName(), 1L);
 
-        assertEquals("Anonymous", dto.getPublicName());
+        assertEquals("Anonymous", user.getPublicName());
 
     }
 
@@ -42,7 +47,6 @@ class UserServiceImplTest {
 
     @Test
     void TestFindById_ReturnsCorrectDto() {
-        User user = new User("testuser", "testpassword", "testname");
         when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
 
         UserDTO dto = userService.findByIdReturnDTO(1L);

@@ -9,6 +9,7 @@ import itacademy.dicegame.security.data.LoginRequest;
 import itacademy.dicegame.security.data.RegisterRequest;
 import itacademy.dicegame.service.AuthService;
 import itacademy.dicegame.service.JwtService;
+import itacademy.dicegame.utilities.NameValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User(
                 request.getUsername(),
                 passwordEncoder.encode(request.getPassword()),
-                request.getPublicName(),
+                NameValidator.checkPublicName(request.getPublicName(), userRepository),
                 Role.USER);
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);

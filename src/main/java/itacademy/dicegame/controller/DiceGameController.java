@@ -22,16 +22,11 @@ public class DiceGameController {
     private final UserService userService;
     private final RollService rollService;
 
-    /*@PostMapping("/players")
-    public ResponseEntity<?> createUser (@RequestBody UserDTO userDTO) {
-        userService.save(userDTO);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
-    }*/
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser (@RequestBody UserDTO userDTO, @PathVariable(value = "id") Long id) {
-        userService.update(userDTO, id);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    public ResponseEntity<?> updateUser (@RequestBody String publicName, @PathVariable(value = "id") Long id) {
+        userService.update(publicName, id);
+        return new ResponseEntity<>(publicName, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/games")
