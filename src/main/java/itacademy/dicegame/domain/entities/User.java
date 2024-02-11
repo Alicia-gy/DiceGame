@@ -45,12 +45,13 @@ public class User implements UserDetails {
     private Role role;
 
 
-    public User(String username, String password, String publicName) {
+    public User(String username, String password, String publicName, Role role) {
         this.username = username;
         this.password = password;
         this.publicName = publicName;
         this.creationDate = LocalDateTime.now();
         this.rolls = new ArrayList<>();
+        this.role = role;
     }
 
     public float calcAverage() {

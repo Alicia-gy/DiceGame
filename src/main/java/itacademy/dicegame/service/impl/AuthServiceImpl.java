@@ -29,14 +29,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse register(RegisterRequest request) {
-        var user = User.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .publicName(request.getPublicName())
-                .role(Role.USER)
-                .build();
+        User user = new User(
+                request.getUsername(),
+                passwordEncoder.encode(request.getPassword()),
+                request.getPublicName(),
+                Role.USER);
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwtToken).build();
     }

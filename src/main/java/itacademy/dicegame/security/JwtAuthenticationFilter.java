@@ -1,7 +1,6 @@
 package itacademy.dicegame.security;
 
 import itacademy.dicegame.service.JwtService;
-import itacademy.dicegame.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
