@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDTO {
 
-    private String name;
+    private String publicName;
     private float average;
 
     public UserDTO(User user) {
-        this.name = user.getName();
+        this.publicName = user.getPublicName();
         this.average = user.calcAverage();
     }
 
     @Override
     public String toString() {
-        return name + " Average: " + average + " %";
+        return publicName + " Average: " + average + " %";
     }
 
 

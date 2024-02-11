@@ -5,6 +5,7 @@ import itacademy.dicegame.domain.dtos.UserDTO;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,30 +15,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/players")
 public class DiceGameController {
 
     private final UserService userService;
     private final RollService rollService;
 
-    public DiceGameController(UserService userService, RollService rollService){
-        this.userService = userService;
-        this.rollService = rollService;
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser (@RequestBody String publicName, @PathVariable(value = "id") Long id) {
+        userService.update(publicName, id);
+        return new ResponseEntity<>(publicName, HttpStatus.OK);
     }
 
-    @PostMapping("/players")
-    public ResponseEntity<?> createUser (@RequestBody UserDTO userDTO) {
-        userService.save(userDTO);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
-    }
-
-    @PutMapping("/players/{id}")
-    public ResponseEntity<?> updateUser (@RequestBody UserDTO userDTO, @PathVariable(value = "id") Long id) {
-        userService.update(userDTO, id);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
-    }
-
-    @PostMapping("/players/{id}/games")
+    @PostMapping("/{id}/games")
     public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") Long id) {
         User user = userService.findByIdReturnEntity(id);
 
@@ -45,7 +37,7 @@ public class DiceGameController {
         return new ResponseEntity<>(rollDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/players/{id}/games")
+    @DeleteMapping("/{id}/games")
     public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") Long id) {
         User user = userService.findByIdReturnEntity(id);
 
@@ -53,7 +45,7 @@ public class DiceGameController {
         return new ResponseEntity<>("Rolls deleted", HttpStatus.OK);
     }
 
-    @GetMapping("/players/")
+    @GetMapping("/")
     public ResponseEntity<?> getPlayerList() {
         List<UserDTO> userDTOS = userService.findAll();
 
@@ -64,7 +56,7 @@ public class DiceGameController {
         return new ResponseEntity<>(convertedList, HttpStatus.OK);
     }
 
-    @GetMapping("/players/{id}/games")
+    @GetMapping("/{id}/games")
     public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") Long id) {
         User user = userService.findByIdReturnEntity(id);
         List<RollDTO> rollDTOS = rollService.findByUser(user);
@@ -76,7 +68,7 @@ public class DiceGameController {
         return new ResponseEntity<>(convertedList, HttpStatus.OK);
     }
 
-    @GetMapping("/players/ranking")
+    @GetMapping("/ranking")
     public ResponseEntity<?> getAverageScore() {
         List<UserDTO> userDTOS = userService.findAll();
         float totalValue = 0;
@@ -89,7 +81,7 @@ public class DiceGameController {
         return new ResponseEntity<>("Average score: " + average, HttpStatus.OK);
     }
 
-    @GetMapping("/players/loser")
+    @GetMapping("/loser")
     public ResponseEntity<?> getWorstAverage() {
         List<UserDTO> userDTOS = userService.findAll();
         List<UserDTO> sorteredList = userDTOS.stream()
@@ -100,7 +92,7 @@ public class DiceGameController {
         return new ResponseEntity<>(loser, HttpStatus.OK);
     }
 
-    @GetMapping("/players/winner")
+    @GetMapping("/winner")
     public ResponseEntity<?> getBestAverage() {
         List<UserDTO> userDTOS = userService.findAll();
         List<UserDTO> sorteredList = userDTOS.stream()

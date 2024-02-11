@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RollDTO {
 
-    private String userName;
+    private String publicName;
     private byte dice1;
     private byte dice2;
     private String result;
 
     public RollDTO(Roll roll){
-        this.userName = roll.getUser().getName();
+        this.publicName = roll.getUser().getPublicName();
         this.dice1 = roll.getDice1();
         this.dice2 = roll.getDice2();
 
