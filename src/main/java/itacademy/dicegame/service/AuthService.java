@@ -1,8 +1,8 @@
 package itacademy.dicegame.service;
 
-import itacademy.dicegame.security.data.AuthResponse;
-import itacademy.dicegame.security.data.LoginRequest;
-import itacademy.dicegame.security.data.RegisterRequest;
+import itacademy.dicegame.security.AuthResponse;
+import itacademy.dicegame.domain.dtos.request.LoginRequest;
+import itacademy.dicegame.domain.dtos.request.RegisterRequest;
 
 public interface AuthService {
 
