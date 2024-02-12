@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(String publicName, Long id){
+    public void update(String publicName, String id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDTO findByIdReturnDTO(Long id) {
+    public UserDTO findByIdReturnDTO(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found: invalid id"));
         return DtoConverter.userToDto(user);
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public User findByIdReturnEntity(Long id) {
+    public User findByIdReturnEntity(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found: invalid id"));
     }

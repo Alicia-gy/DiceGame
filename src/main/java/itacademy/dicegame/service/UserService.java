@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface UserService {
 
-    void update(String publicName, Long id);
+    void update(String publicName, String id);
 
-    UserDTO findByIdReturnDTO(Long id);
+    UserDTO findByIdReturnDTO(String id);
 
-    User findByIdReturnEntity(Long id);
+    User findByIdReturnEntity(String id);
 
     List<UserDTO> findAll();
     

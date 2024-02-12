@@ -24,13 +24,13 @@ public class DiceGameController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser (@RequestBody String publicName, @PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> updateUser (@RequestBody String publicName, @PathVariable(value = "id") String id) {
         userService.update(publicName, id);
         return new ResponseEntity<>(publicName, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/games")
-    public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") String id) {
         User user = userService.findByIdReturnEntity(id);
 
         RollDTO rollDTO = rollService.create2D6Roll(user);
@@ -38,7 +38,7 @@ public class DiceGameController {
     }
 
     @DeleteMapping("/{id}/games")
-    public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") String id) {
         User user = userService.findByIdReturnEntity(id);
 
         rollService.deleteByUser(user);
@@ -57,7 +57,7 @@ public class DiceGameController {
     }
 
     @GetMapping("/{id}/games")
-    public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") String id) {
         User user = userService.findByIdReturnEntity(id);
         List<RollDTO> rollDTOS = rollService.findByUser(user);
 

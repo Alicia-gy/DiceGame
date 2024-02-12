@@ -1,32 +1,29 @@
 package itacademy.dicegame.domain.entities;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "roll")
+@Document("rolls")
 public class Roll {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "dice1")
     private byte dice1;
 
-    @Column(name = "dice2")
     private byte dice2;
 
-    @Column(name = "win")
     private boolean win;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @DBRef
     private User user;
 
     @Transient
