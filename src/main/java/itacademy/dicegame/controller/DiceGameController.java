@@ -25,8 +25,9 @@ public class DiceGameController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser (@RequestBody String publicName, @PathVariable(value = "id") Long id) {
-        userService.update(publicName, id);
-        return new ResponseEntity<>(publicName, HttpStatus.OK);
+        String name = userService.update(publicName, id);
+        return new ResponseEntity<>(
+                "Public name updated: " + name, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/games")
@@ -42,7 +43,8 @@ public class DiceGameController {
         User user = userService.findByIdReturnEntity(id);
 
         rollService.deleteByUser(user);
-        return new ResponseEntity<>("Rolls deleted", HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Rolls deleted", HttpStatus.OK);
     }
 
     @GetMapping("/")
@@ -78,7 +80,8 @@ public class DiceGameController {
         }
         float average = (totalValue / userDTOS.size());
 
-        return new ResponseEntity<>("Average score: " + average, HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Average score: " + average, HttpStatus.OK);
     }
 
     @GetMapping("/loser")
@@ -89,7 +92,8 @@ public class DiceGameController {
                 .toList();
 
         UserDTO loser = sorteredList.getFirst();
-        return new ResponseEntity<>(loser, HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Player with lower average: \n" + loser.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/winner")
@@ -100,6 +104,7 @@ public class DiceGameController {
                 .toList();
 
         UserDTO winner = sorteredList.getFirst();
-        return new ResponseEntity<>(winner, HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Player with highest average: \n" + winner.toString(), HttpStatus.OK);
     }
 }

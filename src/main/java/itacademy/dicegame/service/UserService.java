@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void update(String publicName, Long id);
+    String update(String publicName, Long id);
 
     UserDTO findByIdReturnDTO(Long id);
 

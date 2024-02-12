@@ -23,14 +23,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(String publicName, Long id){
+    public String update(String publicName, Long id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        user.setPublicName(
-                NameValidator.checkPublicName(publicName, userRepository));
+        String name = NameValidator.checkPublicName(publicName, userRepository);
 
+        user.setPublicName(name);
         userRepository.save(user);
+        return name;
     }
 
     @Override
