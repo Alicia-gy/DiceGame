@@ -1,8 +1,8 @@
 package itacademy.dicegame.controller;
 
-import itacademy.dicegame.security.data.AuthResponse;
-import itacademy.dicegame.security.data.LoginRequest;
-import itacademy.dicegame.security.data.RegisterRequest;
+import itacademy.dicegame.security.AuthResponse;
+import itacademy.dicegame.domain.dtos.request.LoginRequest;
+import itacademy.dicegame.domain.dtos.request.RegisterRequest;
 import itacademy.dicegame.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

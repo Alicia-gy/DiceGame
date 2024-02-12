@@ -2,6 +2,7 @@ package itacademy.dicegame.controller;
 
 import itacademy.dicegame.domain.dtos.RollDTO;
 import itacademy.dicegame.domain.dtos.UserDTO;
+import itacademy.dicegame.domain.dtos.request.UpdateRequest;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.service.UserService;
@@ -24,13 +25,15 @@ public class DiceGameController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser (@RequestBody String publicName, @PathVariable(value = "id") String id) {
-        userService.update(publicName, id);
-        return new ResponseEntity<>(publicName, HttpStatus.OK);
+    public ResponseEntity<?> updateUser (@RequestBody UpdateRequest request,
+                                         @PathVariable(value = "id") Long id) {
+        String name = userService.update(request, id);
+        return new ResponseEntity<>(
+                "Public name updated: " + name, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/games")
-    public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") String id) {
+    public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") Long id) {
         User user = userService.findByIdReturnEntity(id);
 
         RollDTO rollDTO = rollService.create2D6Roll(user);
@@ -38,11 +41,12 @@ public class DiceGameController {
     }
 
     @DeleteMapping("/{id}/games")
-    public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") String id) {
+    public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") Long id) {
         User user = userService.findByIdReturnEntity(id);
 
         rollService.deleteByUser(user);
-        return new ResponseEntity<>("Rolls deleted", HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Rolls deleted", HttpStatus.OK);
     }
 
     @GetMapping("/")
@@ -57,7 +61,7 @@ public class DiceGameController {
     }
 
     @GetMapping("/{id}/games")
-    public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") String id) {
+    public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") Long id) {
         User user = userService.findByIdReturnEntity(id);
         List<RollDTO> rollDTOS = rollService.findByUser(user);
 
@@ -78,7 +82,8 @@ public class DiceGameController {
         }
         float average = (totalValue / userDTOS.size());
 
-        return new ResponseEntity<>("Average score: " + average, HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Average score: " + average, HttpStatus.OK);
     }
 
     @GetMapping("/loser")
@@ -89,7 +94,8 @@ public class DiceGameController {
                 .toList();
 
         UserDTO loser = sorteredList.getFirst();
-        return new ResponseEntity<>(loser, HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Player with lower average: \n" + loser.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/winner")
@@ -100,6 +106,7 @@ public class DiceGameController {
                 .toList();
 
         UserDTO winner = sorteredList.getFirst();
-        return new ResponseEntity<>(winner, HttpStatus.OK);
+        return new ResponseEntity<>(
+                "Player with highest average: \n" + winner.toString(), HttpStatus.OK);
     }
 }

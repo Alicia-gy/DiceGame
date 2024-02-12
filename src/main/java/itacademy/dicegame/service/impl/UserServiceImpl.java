@@ -1,6 +1,7 @@
 package itacademy.dicegame.service.impl;
 
 import itacademy.dicegame.domain.dtos.UserDTO;
+import itacademy.dicegame.domain.dtos.request.UpdateRequest;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.exceptions.UserNotFoundException;
 import itacademy.dicegame.repository.UserRepository;
@@ -23,19 +24,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(String publicName, String id){
+    public String update(UpdateRequest request, Long id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         user.setPublicName(
-                NameValidator.checkPublicName(publicName, userRepository));
+                NameValidator.checkPublicName(request.getPublicName(), userRepository));
 
         userRepository.save(user);
+        return user.getPublicName();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserDTO findByIdReturnDTO(String id) {
+    public UserDTO findByIdReturnDTO(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found: invalid id"));
         return DtoConverter.userToDto(user);
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public User findByIdReturnEntity(String id) {
+    public User findByIdReturnEntity(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found: invalid id"));
     }

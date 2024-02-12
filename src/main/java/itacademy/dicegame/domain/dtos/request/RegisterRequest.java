@@ -1,4 +1,4 @@
-package itacademy.dicegame.security.data;
+package itacademy.dicegame.domain.dtos.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class RegisterRequest {
 
     private String username;
 
     private String password;
 
+    private String publicName;
 }
