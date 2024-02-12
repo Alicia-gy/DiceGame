@@ -3,7 +3,9 @@ package itacademy.dicegame.service.impl;
 import itacademy.dicegame.domain.dtos.RollDTO;
 import itacademy.dicegame.domain.entities.Roll;
 import itacademy.dicegame.domain.entities.User;
+import itacademy.dicegame.exceptions.UserNotFoundException;
 import itacademy.dicegame.repository.RollRepository;
+import itacademy.dicegame.repository.UserRepository;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.utilities.DiceRoller;
 import itacademy.dicegame.utilities.DtoConverter;
@@ -20,22 +22,33 @@ public class RollServiceImpl implements RollService {
 
     private final RollRepository rollRepository;
 
+    private final UserRepository userRepository;
+
     @Override
     @Transactional
-    public RollDTO create2D6Roll(User user) {
+    public RollDTO create2D6Roll(String id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
         Roll roll = new Roll(user,
                 DiceRoller.d6Roll(),
                 DiceRoller.d6Roll());
 
         rollRepository.save(roll);
+        userRepository.save(user);
 
         return DtoConverter.rollToDto(roll);
     }
 
     @Override
     @Transactional
-    public void deleteByUser(User user){
+    public void deleteByUserId(String id){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
         rollRepository.deleteByUser(user);
+        user.getRolls().clear();
+        userRepository.save(user);
     }
 
     @Override

@@ -35,9 +35,9 @@ class UserServiceImplTest {
     @Test
     void TestUpdate_ChangesBlankNameToAnonymous() {
         UpdateRequest request = new UpdateRequest(" ");
-        when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(mockUserRepository.findById("1L")).thenReturn(Optional.of(user));
 
-        userService.update(request, 1L);
+        userService.update(request, "1L");
 
         assertEquals("Anonymous", user.getPublicName());
 
@@ -47,9 +47,9 @@ class UserServiceImplTest {
 
     @Test
     void TestFindById_ReturnsCorrectDto() {
-        when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(mockUserRepository.findById("1L")).thenReturn(Optional.of(user));
 
-        UserDTO dto = userService.findByIdReturnDTO(1L);
+        UserDTO dto = userService.findByIdReturnDTO("1L");
 
         assertEquals(dto.getPublicName(), user.getPublicName());
     }

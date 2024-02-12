@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface UserService {
 
-    String update(UpdateRequest request, Long id);
+    String update(UpdateRequest request, String id);
 
-    UserDTO findByIdReturnDTO(Long id);
+    UserDTO findByIdReturnDTO(String id);
 
-    User findByIdReturnEntity(Long id);
+    User findByIdReturnEntity(String id);
 
     List<UserDTO> findAll();
     

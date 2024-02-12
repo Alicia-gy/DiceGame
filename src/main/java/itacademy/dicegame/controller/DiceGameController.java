@@ -26,25 +26,22 @@ public class DiceGameController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser (@RequestBody UpdateRequest request,
-                                         @PathVariable(value = "id") Long id) {
+                                         @PathVariable(value = "id") String id) {
         String name = userService.update(request, id);
         return new ResponseEntity<>(
                 "Public name updated: " + name, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/games")
-    public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") Long id) {
-        User user = userService.findByIdReturnEntity(id);
-
-        RollDTO rollDTO = rollService.create2D6Roll(user);
+    public ResponseEntity<?> new2D6Roll(@PathVariable(value = "id") String id) {
+        RollDTO rollDTO = rollService.create2D6Roll(id);
         return new ResponseEntity<>(rollDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/games")
-    public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") Long id) {
-        User user = userService.findByIdReturnEntity(id);
+    public ResponseEntity<?> deleteRolls(@PathVariable(value = "id") String id) {
 
-        rollService.deleteByUser(user);
+        rollService.deleteByUserId(id);
         return new ResponseEntity<>(
                 "Rolls deleted", HttpStatus.OK);
     }
@@ -61,7 +58,7 @@ public class DiceGameController {
     }
 
     @GetMapping("/{id}/games")
-    public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getPlayerRollList(@PathVariable(value = "id") String id) {
         User user = userService.findByIdReturnEntity(id);
         List<RollDTO> rollDTOS = rollService.findByUser(user);
 

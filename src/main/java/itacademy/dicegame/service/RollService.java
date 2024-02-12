@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface RollService {
 
-    RollDTO create2D6Roll(User user);
+    RollDTO create2D6Roll(String id);
 
-    void deleteByUser(User user);
+    void deleteByUserId(String id);
 
     List<RollDTO> findByUser(User user);
 
