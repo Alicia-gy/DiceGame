@@ -1,6 +1,7 @@
 package itacademy.dicegame.service.impl;
 
 import itacademy.dicegame.domain.dtos.UserDTO;
+import itacademy.dicegame.domain.dtos.request.UpdateRequest;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.enums.Role;
 import itacademy.dicegame.repository.UserRepository;
@@ -33,11 +34,10 @@ class UserServiceImplTest {
 
     @Test
     void TestUpdate_ChangesBlankNameToAnonymous() {
-        UserDTO dto = new UserDTO(user);
-        dto.setPublicName(" ");
+        UpdateRequest request = new UpdateRequest(" ");
         when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        userService.update(dto.getPublicName(), 1L);
+        userService.update(request, 1L);
 
         assertEquals("Anonymous", user.getPublicName());
 

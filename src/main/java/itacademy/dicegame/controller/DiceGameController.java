@@ -2,6 +2,7 @@ package itacademy.dicegame.controller;
 
 import itacademy.dicegame.domain.dtos.RollDTO;
 import itacademy.dicegame.domain.dtos.UserDTO;
+import itacademy.dicegame.domain.dtos.request.UpdateRequest;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.service.RollService;
 import itacademy.dicegame.service.UserService;
@@ -24,8 +25,9 @@ public class DiceGameController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser (@RequestBody String publicName, @PathVariable(value = "id") Long id) {
-        String name = userService.update(publicName, id);
+    public ResponseEntity<?> updateUser (@RequestBody UpdateRequest request,
+                                         @PathVariable(value = "id") Long id) {
+        String name = userService.update(request, id);
         return new ResponseEntity<>(
                 "Public name updated: " + name, HttpStatus.OK);
     }
