@@ -13,4 +13,5 @@ public interface RollService {
 
     List<RollDTO> findByUser(User user);
 
+    byte d6Roll();
 }

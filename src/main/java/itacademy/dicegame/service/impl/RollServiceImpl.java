@@ -5,7 +5,6 @@ import itacademy.dicegame.domain.entities.Roll;
 import itacademy.dicegame.domain.entities.User;
 import itacademy.dicegame.repository.RollRepository;
 import itacademy.dicegame.service.RollService;
-import itacademy.dicegame.utilities.DiceRoller;
 import itacademy.dicegame.utilities.DtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,12 +23,12 @@ public class RollServiceImpl implements RollService {
     @Transactional
     public RollDTO create2D6Roll(User user) {
         Roll roll = new Roll(user,
-                DiceRoller.d6Roll(),
-                DiceRoller.d6Roll());
+                d6Roll(),
+                d6Roll());
 
         rollRepository.save(roll);
 
-        return DtoConverter.rollToDto(roll);
+        return new RollDTO(roll);
     }
 
     @Override
@@ -44,6 +43,11 @@ public class RollServiceImpl implements RollService {
         List<Roll> rolls = rollRepository.findByUser(user);
         List<RollDTO> dtos = rolls.stream().map(DtoConverter::rollToDto).collect(Collectors.toList());
         return dtos;
+    }
+
+    @Override
+    public byte d6Roll() {
+        return (byte) (Math.random() * 6 + 1);
     }
 
 }

@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO findByIdReturnDTO(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found: invalid id"));
-        return DtoConverter.userToDto(user);
+        return new UserDTO(user);
     }
 
     @Override
